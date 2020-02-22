@@ -175,7 +175,11 @@ module.exports = function(RED) {
         this.region = n.region  || "eu-west-1";
         this.bucket = n.bucket;
         this.filename = n.filename || "";
-        this.localFilename = n.localFilename || "";
+        this.localFilename = RED.util.evaluateNodeProperty(
+            n.localFilename.value,
+            n.localFilename.type,
+            this
+        ) || "";
         var node = this;
         var AWS = this.awsConfig ? this.awsConfig.AWS : null;
 

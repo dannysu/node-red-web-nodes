@@ -168,8 +168,8 @@
          <input type="text" id="node-input-filename" data-i18n="[placeholder]aws.placeholder.filename">
     </div>
     <div class="form-row node-input-localFilename">
-         <label for="node-input-localFilename"><i class="fa fa-file"></i> <span data-i18n="aws.label.local"></span></label>
-         <input type="text" id="node-input-localFilename" data-i18n="[placeholder]aws.placeholder.local">
+         <label for="localFilename"><i class="fa fa-file"></i> <span data-i18n="aws.label.local"></span></label>
+         <input type="text" id="localFilename" data-i18n="[placeholder]aws.placeholder.local">
     </div>
     <div class="form-row">
         <label for="node-input-region"><i class="fa fa-tag"></i> <span data-i18n="aws.label.region"></span></label>
@@ -213,7 +213,7 @@
             aws: {type:"aws-config",required:true},
             bucket: {required:true},
             filename: {value:""},
-            localFilename: {value:""},
+            localFilename: {type: "str", value:""},
             region: {value:"", required:true},
             name: {value:""}
         },
@@ -223,6 +223,20 @@
         align: "right",
         label: function() {
             return this.name || this.bucket ? "s3 "+this.bucket : "s3";
+        },
+        oneditprepare: function() {
+            $('#localFilename').typedInput({
+                default: 'str',
+                types: ['str', 'env']
+            });
+            $('#localFilename').typedInput('value', this.localFilename.value);
+            $('#localFilename').typedInput('type', this.localFilename.type);
+        },
+        oneditsave: function() {
+            this.localFilename = {
+                value: $('#localFilename').typedInput('value'),
+                type: $('#localFilename').typedInput('type')
+            };
         }
     });
 </script>
